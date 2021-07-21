@@ -1,24 +1,26 @@
 import jwt from 'jsonwebtoken';
 import { NextFunction, Response, Request } from 'express';
-import ResponseHandler from '../utils/response-handler';
-import { HTTP_UNAUTHORIZED } from '../utils/status-codes/http-status-codes';
+import HttpStatus from 'http-status-codes';
+import { JWT_SECRET } from '../utils/secret';
+import * as response from '../utils/response-handler';
 
 function auth(req: Request, res: Response, next: NextFunction) {
   const token = req.header('Authorization');
   if (!token)
-    return ResponseHandler.ErrorResponse(
+    return response.errorResponse(
       res,
-      HTTP_UNAUTHORIZED,
       'No Token Found. Authorization Denied',
+      null,
+      HttpStatus.UNAUTHORIZED,
     );
   try {
     /**
-     * add uder fromm the payload
+     * add user fromm the payload
      */
-    req.user = jwt.verify(token, String(process.env.JWT_SECRET));
+    req.user = jwt.verify(token, JWT_SECRET);
     return next();
   } catch (e) {
-    return ResponseHandler.ServerErrorResponse(res);
+    return response.serverErrorResponse(res);
   }
 }
 export default auth;

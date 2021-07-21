@@ -1,21 +1,21 @@
 import app from '../app';
 import sequelize from '../../database/utils/database';
+import { PORT } from '../v1/utils/secret';
+import logger from '../v1/utils/logger/logger';
 /**
  * App Variables
  */
-if (!process.env.PORT) {
+if (!PORT) {
   process.exit(1);
 }
-const PORT: number = parseInt(process.env.PORT as string, 10) || 3000;
-app.listen(PORT, () => {
+const APP_PORT: number = parseInt(PORT as string, 10) || 3000;
+app.listen(APP_PORT, () => {
   sequelize
     .authenticate()
     .then(() => {
-      // eslint-disable-next-line no-console
-      console.log('Connection has been established successfully.');
+      logger.info('Connection has been established successfully.');
     })
     .catch(() => {
-      // eslint-disable-next-line no-console
-      console.log('Unable to connect to the database:');
+      logger.error('Unable to connect to the database:');
     });
 });

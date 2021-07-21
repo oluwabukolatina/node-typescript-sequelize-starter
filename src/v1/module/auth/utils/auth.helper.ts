@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { JWT_SECRET, JWT_EXPIRY } from '../../../utils/secret';
 
 export const createToken = async (id: number, email: string) =>
-  jwt.sign({ id, email }, String(process.env.JWT_SECRET), {
-    expiresIn: 720000,
+  jwt.sign({ id, email }, JWT_SECRET, {
+    expiresIn: JWT_EXPIRY,
   });
 export const hashPassword = async (password: string) =>
   bcrypt.hash(password, 10);
