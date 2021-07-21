@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import HttpStatus from 'http-status-codes';
 import { createUser } from '../../user/service/user.service';
-import * as response from '../../../utils/response-handlers/response-handler';
+import * as response from '../../../utils/response-handler';
 import * as helper from '../utils/auth.helper';
 
 export const registerUser = async ({ body }: Request, res: Response) => {

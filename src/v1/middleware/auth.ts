@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { NextFunction, Response, Request } from 'express';
-import ResponseHandler from '../utils/response-handlers/response-handler';
+import ResponseHandler from '../utils/response-handler';
 import { HTTP_UNAUTHORIZED } from '../utils/status-codes/http-status-codes';
 
 function auth(req: Request, res: Response, next: NextFunction) {

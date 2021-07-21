@@ -1,7 +1,7 @@
 import HttpStatus from 'http-status-codes';
 import { Schema } from 'joi';
 import { NextFunction, Request, Response } from 'express';
-import { errorResponse } from '../utils/response-handlers/response-handler';
+import { errorResponse } from '../utils/response-handler';
 
 export const baseValidationForBody = async (
   schema: Schema,
