@@ -20,7 +20,9 @@
     "lint:ts": "eslint --ext=jsx,ts src",
     "lint-and-fix": "eslint . --ext .ts --fix",
     "start": "npm run build && node build/src/bin/server.js",
-    "test": "jest --watch",
+    "test": "jest --detectOpenHandles --forceExit --verbose --testTimeout=10000",
+    "watch-test": "jest --watchAll --detectOpenHandles --forceExit --coverage --verbose --testTimeout=7000",
+    "watch:no-c": "jest --watchAll --detectOpenHandles --forceExit --verbose --testTimeout=7000",
     "prettier:base": "prettier --parser typescript --single-quote"
   },
   "keywords": [],
