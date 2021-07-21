@@ -7,7 +7,7 @@ export const errorResponse = (
   data: any,
   code: number,
 ) => {
-  return res.status(code).json({ message, status: false, data });
+  return res.status(code).json({ status: false, message, data });
 };
 
 export const successResponse = (
@@ -16,16 +16,16 @@ export const successResponse = (
   data: any,
   code: number,
 ) => {
-  return res.status(code).json({ message, status: true, data });
+  return res.status(code).json({ status: true, message, data });
 };
 export const serverErrorResponse = (res: Response) => {
   return res
     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-    .json({ message: 'Internal Server Error', status: false });
+    .json({ status: false, message: 'Internal Server Error', });
 };
 
 export const notFoundResponse = (res: Response, message: string, data: any) => {
   return res
     .status(HttpStatus.NOT_FOUND)
-    .json({ message, status: false, data });
+    .json({ status: false, message, data });
 };

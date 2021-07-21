@@ -1,6 +1,6 @@
 import winston from 'winston';
 import 'winston-daily-rotate-file';
-import { ENVIRONMENT } from '../secret';
+import { ENVIRONMENT } from './secret';
 
 const {
   json,

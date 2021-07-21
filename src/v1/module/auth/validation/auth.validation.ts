@@ -8,7 +8,6 @@ export const validateRegister = async (
   next: NextFunction,
 ) => {
   const schema = Joi.object({
-    name: Joi.string().min(3).max(50).label('Name').required(),
     email: Joi.string().email().label('Email').required(),
     password: Joi.string().label('Password').required(),
   });

@@ -2,47 +2,42 @@ import request from 'supertest';
 import * as faker from 'faker';
 import HttpStatus from 'http-status-codes';
 import app from '../../../../app';
-import { AUTH_URL } from '../../../utils/urls';
+import { REGISTER_USER_URL } from '../auth.url';
+import * as message from "../message/auth.message";
 
 describe('auth /auth', () => {
-  let email = '';
-  beforeAll(async () => {
-    const data = {
-      email: faker.internet.email(),
-      password: 'password',
-    };
-    const res = await request(app).post(`${AUTH_URL}/register`).send(data);
-    expect(res.status).toEqual(HttpStatus.CREATED);
-    email = res.body.data.user.email;
-  });
   it('should create a user', async () => {
-    const res = await request(app).post(`${AUTH_URL}/register`).send({
+    const res = await request(app).post(REGISTER_USER_URL).send({
       email: faker.internet.email(),
       password: faker.random.word(),
     });
     expect(res.status).toEqual(HttpStatus.CREATED);
-    expect(res.body.message).toEqual('UserModel Created');
     expect(res.body.status).toEqual(true);
+    expect(res.body.message).toEqual(message.MSG_USER_LOGGED_IN_SUCCESSFULLY);
     expect(res.body).toHaveProperty('data');
+    expect(res.body.data).toHaveProperty('email');
+    expect(res.body.data).toHaveProperty('id');
   });
-  it('should not create a user if no email', async () => {
-    const res = await request(app).post(`${AUTH_URL}/register`).send({
-      password: faker.random.word(),
-    });
-    expect(res.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(res.body.message).toEqual('Unable to register');
+
+  it('should not register a user without email', async () => {
+    const res = await request(app)
+      .post(`${REGISTER_USER_URL}`)
+      .send({ password: 'password' });
     expect(res.body.status).toEqual(false);
-    expect(res.body).toHaveProperty('error');
-    expect(res.body.error[0].message).toEqual('email is required');
+    expect(res.body.message).toEqual(message.MSG_UNABLE_TO_REGISTER_USER);
+    expect(res.body).toHaveProperty('data');
+    expect(res.body.data).toHaveProperty('message');
+    expect(res.body.data.message).toBe('Email is required');
   });
-  it('should not create a user if no password', async () => {
-    const res = await request(app).post(`${AUTH_URL}/register`).send({
-      email: faker.internet.email(),
-    });
-    expect(res.status).toEqual(HttpStatus.BAD_REQUEST);
-    expect(res.body.message).toEqual('Unable to register');
+
+  it('should not register a user without password', async () => {
+    const res = await request(app)
+      .post(`${REGISTER_USER_URL}`)
+      .send({ email: faker.internet.email() });
     expect(res.body.status).toEqual(false);
-    expect(res.body).toHaveProperty('error');
-    expect(res.body.error[0].message).toEqual('password is required');
+    expect(res.body.message).toEqual(message.MSG_UNABLE_TO_REGISTER_USER);
+    expect(res.body).toHaveProperty('data');
+    expect(res.body.data).toHaveProperty('message');
+    expect(res.body.data.message).toBe('Password is required');
   });
 });

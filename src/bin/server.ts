@@ -1,7 +1,7 @@
 import app from '../app';
 import sequelize from '../../database/utils/database';
 import { PORT } from '../v1/utils/secret';
-import logger from '../v1/utils/logger/logger';
+import logger from '../v1/utils/logger';
 /**
  * App Variables
  */

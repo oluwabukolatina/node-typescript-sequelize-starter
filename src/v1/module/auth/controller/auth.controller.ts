@@ -3,6 +3,7 @@ import HttpStatus from 'http-status-codes';
 import { createUser } from '../../user/service/user.service';
 import * as response from '../../../utils/response-handler';
 import * as helper from '../utils/auth.helper';
+import { MSG_USER_LOGGED_IN_SUCCESSFULLY } from '../message/auth.message';
 
 export const registerUser = async ({ body }: Request, res: Response) => {
   try {
@@ -10,19 +11,15 @@ export const registerUser = async ({ body }: Request, res: Response) => {
     const hash = await helper.hashPassword(password);
     const data = { email, password: hash };
     const user = await createUser(data);
-    const token = helper.createToken(user.id, user.email);
     return response.successResponse(
       res,
-      'UserModel Created',
+      MSG_USER_LOGGED_IN_SUCCESSFULLY,
       {
-        user: {
-          email: user.email,
-          id: user.id,
-          createdAt: user.createdAt,
-        },
-        token,
+        email: user.email,
+        id: user.id,
+        createdAt: user.createdAt,
       },
-      HttpStatus.OK,
+      HttpStatus.CREATED,
     );
   } catch (err) {
     return response.serverErrorResponse(res);
